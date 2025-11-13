@@ -1,6 +1,6 @@
 # LIFE4138: Coursework instructions
-## 2025 - 2026
-## Hannah Jackson
+#### 2025 - 2026
+#### Hannah Jackson
 
 ## The brief:
 
