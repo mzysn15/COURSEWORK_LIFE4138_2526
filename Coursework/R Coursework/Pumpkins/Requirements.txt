@@ -1,0 +1,1 @@
+Requirements for Pumpkins R ScriptInstall packages:ggplot2tidyversedplyrmagrittrreadr
