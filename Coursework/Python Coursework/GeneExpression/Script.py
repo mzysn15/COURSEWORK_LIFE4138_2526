@@ -60,7 +60,7 @@ UpReg
 DownReg = DF_A[DF_A['Up/Down_Reg'] == 'Down'][['gene_id', 'log2FoldChange', 'pvalue', 'padj', 'Up/Down_Reg']]
 DownReg
 
-#Summary of p-values and log fold changes across all genes for each comparison.
+#Summary of p-values and log fold changes across all genes for each comparison-without log10 just to see the summary naturally
 x = (DF_A['log2FoldChange'])
 y = (DF_A['pvalue'])
 colors = np.random.randint(100, size = len(DF_A))
@@ -71,7 +71,17 @@ plt.ylabel("P Value", fontsize=10)
 plt.title("Summary of P values and Log Fold Changes across all Genes")
 plt.show()
 
-#DF_A - Volcano plots to visualize the significance and magnitude of changes in gene expression for each comparison. I fear I may have gone the long way around this...but this was only tutorial where I fully understood what each code was doing (maybe not why)!
+#Summary of p-values and log fold changes across all genes for each comparison-This plot has -log10 the P-Values for better spread/visuals
+x = DF_A['log2FoldChange'] 
+y = -np.log10(DF_A['pvalue'])  
+plt.figure(figsize=(8,6)) 
+plt.scatter(x, y, color = 'black') 
+plt.xlabel("Log 2 Fold Change", fontsize=10) 
+plt.ylabel("-log10 P value", fontsize=10) 
+plt.title("Summary of P values and Log Fold Changes Across All Genes") 
+plt.show()
+
+#DF_A - Volcano plots to visualize the significance and magnitude of changes in gene expression for each comparison.-I may have done this the long way, but of all the ways to make a volcano plot, this made most sense to me unfortunately.
 ##Calculate log10 Value
 DF_A['NegLog_Pval'] = -np.log10(DF_A['pvalue'])
 plt.figure(figsize = (12,8))
@@ -81,7 +91,7 @@ plt.scatter(DF_A['log2FoldChange'][(DF_A['padj'] < 0.05) & (DF_A['log2FoldChange
             DF_A['NegLog_Pval'][(DF_A['padj'] < 0.05) & (DF_A['log2FoldChange'] >= 2.5) & (DF_A['NegLog_Pval'] >= 5)],
 c = 'red', label = 'Upregulated')
 ##Scatter Plot of Downregulated Genes
-DF_A['NegLog_Pval'] = -np.log(DF_A['pvalue'])
+DF_A['NegLog_Pval'] = -np.log10(DF_A['pvalue'])
 plt.scatter(DF_A['log2FoldChange'][(DF_A['padj'] < 0.05) & (DF_A['log2FoldChange'] <= -2.5) & (DF_A['NegLog_Pval'] >= 5)],
             DF_A['NegLog_Pval'][(DF_A['padj'] < 0.05) & (DF_A['log2FoldChange'] <= -2.5) & (DF_A['NegLog_Pval'] >= 5)],
 c = 'blue', label = 'Downregulated')
@@ -174,10 +184,9 @@ plt.show()
 
 #Additional Analyses-This is a Clustered Heatmap
 sns.clustermap(MERGED4v[['log2fc_I', 'log2fc_A']].set_index(MERGED4v['gene_id']), 
-            annot=True, figsize=(7,6), dendrogram_ratio=(.6, .05), cbar_pos=(1, .15, .04, .7))
+           annot=True, figsize=(8,6), dendrogram_ratio=(.6, .05), cbar_pos=(1, .15, .04, .7), linewidths=0.55, fmt=".2f")
+plt.title("Gene Expression Cluster Map", fontsize=15, pad =50)
 plt.show()
-
-
 
 
 #I am concerned I have not used def or _init_ at all in this code, but I do not know why I have to use those codes, I cannot imagine using def to define my graphs when i can use '#...' to explain what is happening. Furthermore, the sites which have supplemented my learning/coursework are: GeeksforGreeks, W3 Schools, @Bioinformatics-IBE, @MrBioinformatiX, Seaborn (+).
