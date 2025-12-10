@@ -1,0 +1,1 @@
+Requirements for Gene Expression Python ScriptInstall packages:pandasnumpymatplotlibmatplotlib.pyplotseabornmathBio
